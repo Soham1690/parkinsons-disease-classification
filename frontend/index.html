@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parkinson's Voice Screening Explorer</title>
+    <meta
+      name="description"
+      content="Advanced medical-style machine learning interface for voice-based Parkinsonian signal screening."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-grid"></div>
+
+    <div class="site-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Medical ML Experience</div>
+          <h1>Parkinson's Voice Screening Explorer</h1>
+          <p class="hero-text">
+            A clinically framed interactive web interface for exploring how an
+            ensemble machine learning model evaluates voice biomarkers
+            associated with Parkinsonian speech-pattern change.
+          </p>
+
+          <div class="hero-highlights">
+            <div class="chip">Interactive dataset screening</div>
+            <div class="chip">Manual biomarker entry</div>
+            <div class="chip">Confidence-based result display</div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#workspace" class="button primary">Launch workspace</a>
+            <a href="#insights" class="button secondary">View model insights</a>
+          </div>
+
+          <div class="hero-note">
+            Educational demonstration only. This interface is not a diagnostic
+            tool and should not replace clinical judgment.
+          </div>
+        </div>
+
+        <aside class="hero-panel glass-card">
+          <div class="panel-label">Live model summary</div>
+          <div id="stat-grid" class="stat-grid"></div>
+        </aside>
+      </header>
+
+      <main>
+        <section class="section section-intro">
+          <div class="section-head">
+            <div>
+              <div class="section-tag">Clinical framing</div>
+              <h2>Built to feel clear, modern, and medically relevant</h2>
+              <p class="section-copy">
+                Instead of looking like a notebook dump, this interface presents
+                the project as a polished screening demo with guided terminology,
+                cleaner user flow, and easier interpretation.
+              </p>
+            </div>
+          </div>
+
+          <div class="intro-grid">
+            <article class="glass-card intro-card">
+              <h3>Relevant terminology</h3>
+              <p>
+                Uses medically meaningful language such as
+                <strong>voice biomarkers</strong>,
+                <strong>Parkinsonian signal</strong>,
+                <strong>screening output</strong>, and
+                <strong>model confidence</strong>.
+              </p>
+            </article>
+
+            <article class="glass-card intro-card">
+              <h3>Easy user flow</h3>
+              <p>
+                Users can start with a stored voice record, then move to manual
+                biomarker input without feeling lost in raw technical details.
+              </p>
+            </article>
+
+            <article class="glass-card intro-card">
+              <h3>Better interpretation</h3>
+              <p>
+                Results are shown with structured explanation, probability bars,
+                risk wording, and key record details.
+              </p>
+            </article>
+
+            <article class="glass-card intro-card warning-card">
+              <h3>Important notice</h3>
+              <p>
+                This project demonstrates a machine learning workflow. It is
+                useful as a product showcase and educational interface, not as a
+                replacement for neurological assessment.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="workspace">
+          <div class="section-head split-head">
+            <div>
+              <div class="section-tag">Screening workspace</div>
+              <h2>Run a voice-based screening estimate</h2>
+              <p class="section-copy">
+                Start with an existing voice record or enter the speech
+                biomarker values manually.
+              </p>
+            </div>
+
+            <div id="api-status" class="status-pill">Connecting...</div>
+          </div>
+
+          <div class="workspace-grid">
+            <article class="glass-card workspace-card">
+              <div class="card-head">
+                <h3>Sample-based screening</h3>
+                <p>
+                  Select a record from the dataset and run the model on that
+                  voice sample.
+                </p>
+              </div>
+
+              <div class="field-stack">
+                <label class="field-block">
+                  <span class="field-label">Dataset source</span>
+                  <select id="dataset-select"></select>
+                </label>
+
+                <label class="field-block">
+                  <span class="field-label">Selected record</span>
+                  <input id="row-range" type="range" min="0" max="0" value="0" />
+                  <span id="range-label" class="field-helper">Record 0</span>
+                </label>
+              </div>
+
+              <div class="action-row">
+                <button id="load-sample" class="button secondary" type="button">
+                  Load record
+                </button>
+                <button id="predict-sample" class="button primary" type="button">
+                  Run screening
+                </button>
+              </div>
+
+              <div id="sample-preview" class="sample-preview"></div>
+            </article>
+
+            <article class="glass-card workspace-card">
+              <div class="card-head">
+                <h3>Manual biomarker analysis</h3>
+                <p>
+                  Copy the loaded sample into the form or enter biomedical voice
+                  features manually for a custom run.
+                </p>
+              </div>
+
+              <div class="action-row top-actions">
+                <button id="fill-from-sample" class="button secondary" type="button">
+                  Copy loaded sample
+                </button>
+                <button id="predict-manual" class="button primary" type="button">
+                  Analyze manual input
+                </button>
+              </div>
+
+              <div id="manual-form" class="manual-form-groups"></div>
+            </article>
+          </div>
+
+          <article id="prediction-output" class="glass-card prediction-panel hidden"></article>
+        </section>
+
+        <section class="section" id="insights">
+          <div class="section-head">
+            <div>
+              <div class="section-tag">Model insights</div>
+              <h2>Performance summary and influential features</h2>
+              <p class="section-copy">
+                A compact view of deployed model performance and the voice
+                features contributing most strongly to the final estimate.
+              </p>
+            </div>
+          </div>
+
+          <div class="insights-grid">
+            <article class="glass-card insight-card">
+              <h3>Performance metrics</h3>
+              <div id="metric-list" class="metric-list"></div>
+            </article>
+
+            <article class="glass-card insight-card">
+              <h3>Top contributing features</h3>
+              <div id="feature-importance" class="importance-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="portfolio-copy">
+          <div class="section-head">
+            <div>
+              <div class="section-tag">Portfolio summary</div>
+              <h2>Project copy for your main portfolio</h2>
+            </div>
+          </div>
+
+          <article class="glass-card portfolio-card">
+            <div class="portfolio-line">
+              <span>Project</span>
+              <strong>Parkinson's Voice Screening Explorer</strong>
+            </div>
+            <div class="portfolio-line">
+              <span>Description</span>
+              <strong>
+                An advanced medical-style machine learning interface that
+                estimates Parkinsonian voice-pattern risk using biomedical
+                speech features and an ensemble classifier.
+              </strong>
+            </div>
+            <div class="portfolio-line">
+              <span>Stack</span>
+              <strong>FastAPI · scikit-learn · JavaScript · HTML · CSS</strong>
+            </div>
+            <div class="portfolio-line">
+              <span>Highlights</span>
+              <strong>
+                Screening workspace · guided biomarker form · probability
+                visualization · model insight dashboard
+              </strong>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
