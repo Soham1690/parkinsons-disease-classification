@@ -1,0 +1,12 @@
+{
+  "name": "parkinsons-demo-site",
+  "private": true,
+  "scripts": {
+    "backend": "backend\\.venv\\Scripts\\python.exe -m uvicorn app.main:app --app-dir backend --reload --port 8000",
+    "frontend": "npm --prefix frontend/react run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
